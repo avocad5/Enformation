@@ -1,2 +1,3 @@
 # Enformation
-엔트리유저, 좋아요개수 등의 정보를 얻을수있는 블록
+dark님의 조회수총합계산기와 thoratica님의 EntBlock 2.1을 기반으로 만들어졌습니다.
+
