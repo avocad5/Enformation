@@ -22,7 +22,57 @@ const blocks = [
     def: [],
     map: {},
     class: 'text'
-    }
+    },
+    
+    {
+    name: 'getuser',
+    template: '%1님의 %2',
+    skeleton: 'basic_string_field',
+    color: {
+      default: usercolor,
+      darken: usercolor
+    },
+    params: [
+     {
+        type: 'Block',
+        accept: 'string'
+      },
+      {
+        type: 'Dropdown',
+        options: [
+          ['조회수', 'view'],
+          ['좋아요수', 'likeCnt'],
+          ['댓글수', 'comment']
+        ],
+        fontSize: 11,
+        arrowColor: '#FFD974',
+        value: 'log'
+      },],
+    def: [
+      {
+        type: 'text',
+        params: ['avocad5']
+      },
+      null
+    ],
+    map: {
+      NAME : 0,
+      TYPE: 1
+    },
+    class: 'user',
+    func: async (sprite, script) => {
+        let num = 0;
+        const u = script.getValue('NAME',script);
+        $.get("https://playentry.org/api/getUserByUsername/"+u, function(dd){
+        $.get("https://playentry.org/api/project/find?option=list&sort=updated&rows=15&page=1&tab=my_project&type=project&user="+dd._id+"&blamed=false",function(d){
+        for(var i=0;i<d.data.length;i++){
+        num += d.data[i][script.getValue('TYPE',script)];
+        }
+        });
+        });
+        retunr num
+    },
+  },
 ]
 
 
