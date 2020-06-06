@@ -1,3 +1,36 @@
+const usercolor = "#DC143C"
+const staffcolor = "#8A2BE2"
+const popcolor = "#32CD32"
+
+const blocks = [
+    {
+    name: 'usertext',
+    template: '%1',
+    skeleton: 'basic_text',
+    color: {
+      default: EntryStatic.colorSet.common.TRANSPARENT,
+      darken: EntryStatic.colorSet.common.TRANSPARENT
+    },
+    params: [
+      {
+        type: 'Text',
+        text: 'user',
+        color: EntryStatic.colorSet.common.TEXT,
+        align: 'center'
+      }
+    ],
+    def: [],
+    map: {},
+    class: 'text'
+    }
+]
+
+
+
+
+
+
+
 const LibraryCreator = {
     start: (blocksJSON, category, text) => {
         let blockArray = new Array
