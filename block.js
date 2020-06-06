@@ -70,7 +70,7 @@ const blocks = [
         }
         });
         });
-        retunr num
+        return num
     },
   },
 ]
