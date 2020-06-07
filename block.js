@@ -131,7 +131,7 @@ const blocks = [
       class: "user",
       func: async(sprite, script) => {
         
-        var com=0;
+        let com=0;
         var u= script.getValue("NAME", script);;
         $.get("https://playentry.org/api/getUserByUsername/"+u, function(dd){
         $.get("https://playentry.org/api/project/find?option=list&sort=updated&rows=15&page=1&tab=my_project&type=project&user="+dd._id+"&blamed=false",function(d){
