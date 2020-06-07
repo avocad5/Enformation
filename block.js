@@ -1,83 +1,210 @@
-const usercolor = "#DC143C"
-const staffcolor = "#8A2BE2"
-const popcolor = "#32CD32"
+//Enformation GPL 3.0 라이센스를 따릅니다.
+const savecolor = '#00CC66';
+const getcolor = '#373737';
 
 const blocks = [
     {
-    name: 'usertext',
-    template: '%1',
-    skeleton: 'basic_text',
-    color: {
-      default: EntryStatic.colorSet.common.TRANSPARENT,
-      darken: EntryStatic.colorSet.common.TRANSPARENT
-    },
-    params: [
-      {
-        type: 'Text',
-        text: 'user',
-        color: EntryStatic.colorSet.common.TEXT,
-        align: 'center'
-      }
-    ],
-    def: [],
-    map: {},
-    class: 'text'
-    },
-    
-    {
-    name: 'getuser',
-    template: '%1님의 %2',
-    skeleton: 'basic_string_field',
-    color: {
-      default: usercolor,
-      darken: usercolor
-    },
-    params: [
-     {
-        type: 'Block',
-        accept: 'string'
-      },
-      {
-        type: 'Dropdown',
-        options: [
-          ['조회수', 'view'],
-          ['좋아요수', 'likeCnt'],
-          ['댓글수', 'comment']
+        name: 'text_introduce',
+        template: '%1',
+        skeleton: 'basic_text',
+        color: {
+            default: EntryStatic.colorSet.common.TRANSPARENT,
+            darken: EntryStatic.colorSet.common.TRANSPARENT
+        },
+        params: [
+            {
+                type: 'Text',
+                text: 'Enformation',
+                color: EntryStatic.colorSet.common.TEXT,
+                align: 'center'
+            }
         ],
-        fontSize: 11,
-        arrowColor: '#FFD974',
-        value: 'log'
-      },],
-    def: [
-      {
-        type: 'text',
-        params: ['avocad5']
-      },
-      null
-    ],
-    map: {
-      NAME : 0,
-      TYPE: 1
+        def: [],
+        map: {},
+        class: 'text'
     },
-    class: 'user',
-    func: async (sprite, script) => {
-        let num = 0;
-        const u = script.getValue('NAME',script);
+    {
+        name: 'savetext',
+        template: '%1',
+        skeleton: 'basic_text',
+        color: {
+            default: EntryStatic.colorSet.common.TRANSPARENT,
+            darken: EntryStatic.colorSet.common.TRANSPARENT
+        },
+        params: [
+            {
+                type: 'Text',
+                text: '유저',
+                color: EntryStatic.colorSet.common.TEXT,
+                class: 'bold',
+                align: 'center'
+            }
+        ],
+        def: [],
+        map: {},
+        class: 'user'
+    },
+    {
+      name: "getvalue",
+      template: "%1님의 누적조회수",
+      skeleton: "basic_string_field",
+      color: {
+        default: getcolor
+      },
+      params: [
+        {
+          type: "Block",
+          accept: "string",
+          value: "avocad5"
+        }
+      ],
+      def: [],
+      map: {
+        NAME:0
+      },
+      class: "get",
+      func: async(sprite, script) => {
+        
+        var view=0;
+        var u= script.getValue("NAME", script);;
         $.get("https://playentry.org/api/getUserByUsername/"+u, function(dd){
         $.get("https://playentry.org/api/project/find?option=list&sort=updated&rows=15&page=1&tab=my_project&type=project&user="+dd._id+"&blamed=false",function(d){
         for(var i=0;i<d.data.length;i++){
-        num += d.data[i][script.getValue('TYPE',script)];
+        view = view + d.data[i].visit;
         }
+        return view
         });
         });
-        return num
+      }
     },
-  },
+    {
+      name: 'removeitem',
+      template: "%1key와 value를 삭제하기%2",
+      skeleton: "basic",
+      color: {
+        default: savecolor
+      },
+      params: [
+        {
+          type: "Block",
+          accept: "string",
+          value: "안녕"
+        },
+        {
+          type: 'Indicator',
+          img: 'block_icon/hardware_icon.svg',
+          size: 11,
+        }
+      ],
+      def: [],
+      map: {
+        KEY:0
+      },
+      class: "save",
+      func: async(sprite, script) => {
+        let keydd = script.getValue("KEY", script);
+
+        localStorage.removeItem(Entry.projectId+keydd);
+      }
+    },
+
+    //배열 카테고리
+    {
+        name: 'gettext',
+        template: '%1',
+        skeleton: 'basic_text',
+        color: {
+            default: EntryStatic.colorSet.common.TRANSPARENT,
+            darken: EntryStatic.colorSet.common.TRANSPARENT
+        },
+        params: [
+            {
+                type: 'Text',
+                text: '가져오기',
+                color: EntryStatic.colorSet.common.TEXT,
+                align: 'center'
+            }
+        ],
+        def: [],
+        map: {},
+        class: 'get'
+    },
+
+    {
+      name: "getvalue",
+      template: "%1key를 가진 value값",
+      skeleton: "basic_string_field",
+      color: {
+        default: getcolor
+      },
+      params: [
+        {
+          type: "Block",
+          accept: "string",
+          value: "안녕"
+        }
+      ],
+      def: [],
+      map: {
+        KEY:0
+      },
+      class: "get",
+      func: async(sprite, script) => {
+        let keydd = script.getValue("KEY", script);
+        
+        return localStorage.getItem(Entry.projectId+keydd);
+      }
+    },
+    {
+      name: "getproject",
+      template: "%1id를 가진 작품의 %2key를 가진 value값",
+      skeleton: "basic_string_field",
+      color: {
+        default: getcolor
+      },
+      params: [
+        {
+          type: "Block",
+          accept: "string",
+          value: '10'
+        },
+        {
+          type: "Block",
+          accept: "string",
+          value: '안녕'
+        }
+      ],
+      def: [],
+      map: {
+        ID:0,
+        KEY:1
+      },
+      class: "get",
+      func: async(sprite, script) => {
+        let id = script.getValue("ID",script);
+        let keydd = script.getValue("KEY", script);
+        
+        return localStorage.getItem(id+keydd);
+      }
+    },
+    {
+      name: "getid",
+      template: "이 작품의 아이디",
+      skeleton: "basic_string_field",
+      color: {
+        default: getcolor
+      },
+      params: [
+      ],
+      def: [],
+      map: {
+      },
+      class: "get",
+      func: async(sprite, script) => {
+        return Entry.projectId;
+      }
+    }
 ]
-
-
-
-
 
 
 
@@ -446,6 +573,7 @@ const LibraryCreator = {
 let blockPOST
 LibraryCreator.start(blocks, 'API', 'En')
 alert("Enformation은 avocad5가 만들었습니다.")
-console.log('Enformation은 thoratica님의 Entblock 2.1과 dark님의 조회수총합계산기를 기반으로 만들어졌습니다.\n따라서 GPL 3.0 라이센스를 따릅니다.')
+console.log('Entormation는 Entblock 2.1과 조회수총합계산기을 참고해서 만들었습니다.\n따라서 GPL 3.0 라이센스를 따릅니다.')
+
 
 
