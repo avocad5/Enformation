@@ -24,7 +24,7 @@ const blocks = [
         class: 'text'
     },
     {
-        name: 'savetext',
+        name: 'usertext',
         template: '%1',
         skeleton: 'basic_text',
         color: {
@@ -45,7 +45,7 @@ const blocks = [
         class: 'user'
     },
     {
-      name: "getvalue",
+      name: "userview",
       template: "%1님의 누적 조회수",
       skeleton: "basic_string_field",
       color: {
@@ -78,7 +78,7 @@ const blocks = [
       }
     },
     {
-      name: "getvalue",
+      name: "userlike",
       template: "%1님의 누적 좋아요",
       skeleton: "basic_string_field",
       color: {
@@ -111,7 +111,7 @@ const blocks = [
       }
     },
     {
-      name: "getvalue",
+      name: "usercomment",
       template: "%1님의 누적 댓글",
       skeleton: "basic_string_field",
       color: {
