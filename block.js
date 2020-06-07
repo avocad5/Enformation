@@ -46,7 +46,7 @@ const blocks = [
     },
     {
       name: "getvalue",
-      template: "%1님의 누적조회수",
+      template: "%1님의 누적 조회수",
       skeleton: "basic_string_field",
       color: {
         default: getcolor
@@ -62,7 +62,7 @@ const blocks = [
       map: {
         NAME:0
       },
-      class: "get",
+      class: "user",
       func: async(sprite, script) => {
         
         var view=0;
@@ -78,36 +78,71 @@ const blocks = [
       }
     },
     {
-      name: 'removeitem',
-      template: "%1key와 value를 삭제하기%2",
-      skeleton: "basic",
+      name: "getvalue",
+      template: "%1님의 누적 좋아요",
+      skeleton: "basic_string_field",
       color: {
-        default: savecolor
+        default: getcolor
       },
       params: [
         {
           type: "Block",
           accept: "string",
-          value: "안녕"
-        },
-        {
-          type: 'Indicator',
-          img: 'block_icon/hardware_icon.svg',
-          size: 11,
+          value: "avocad5"
         }
       ],
       def: [],
       map: {
-        KEY:0
+        NAME:0
       },
-      class: "save",
+      class: "user",
       func: async(sprite, script) => {
-        let keydd = script.getValue("KEY", script);
-
-        localStorage.removeItem(Entry.projectId+keydd);
+        
+        var like=0;
+        var u= script.getValue("NAME", script);;
+        $.get("https://playentry.org/api/getUserByUsername/"+u, function(dd){
+        $.get("https://playentry.org/api/project/find?option=list&sort=updated&rows=15&page=1&tab=my_project&type=project&user="+dd._id+"&blamed=false",function(d){
+        for(var i=0;i<d.data.length;i++){
+        like = like + d.data[i].likeCnt;
+        }
+        return like
+        });
+        });
       }
     },
-
+    {
+      name: "getvalue",
+      template: "%1님의 누적 댓글",
+      skeleton: "basic_string_field",
+      color: {
+        default: getcolor
+      },
+      params: [
+        {
+          type: "Block",
+          accept: "string",
+          value: "avocad5"
+        }
+      ],
+      def: [],
+      map: {
+        NAME:0
+      },
+      class: "user",
+      func: async(sprite, script) => {
+        
+        var com=0;
+        var u= script.getValue("NAME", script);;
+        $.get("https://playentry.org/api/getUserByUsername/"+u, function(dd){
+        $.get("https://playentry.org/api/project/find?option=list&sort=updated&rows=15&page=1&tab=my_project&type=project&user="+dd._id+"&blamed=false",function(d){
+        for(var i=0;i<d.data.length;i++){
+        com = com + d.data[i].comment;
+        }
+        return com
+        });
+        });
+      }
+    },
     //배열 카테고리
     {
         name: 'gettext',
