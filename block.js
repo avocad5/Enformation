@@ -138,9 +138,9 @@ const blocks = [
         for(var i=0;i<d.data.length;i++){
         com = com + d.data[i].comment;
         }
+        });
+        });
         return com
-        });
-        });
       }
     },
     //배열 카테고리
